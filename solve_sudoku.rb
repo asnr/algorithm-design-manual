@@ -139,6 +139,8 @@ class Point
   def ==(other)
     @row == other.row && @column == other.column
   end
+
+  alias :eql? :==
 end
 
 unless ARGV.length == 1
