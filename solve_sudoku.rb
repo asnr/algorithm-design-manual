@@ -83,14 +83,22 @@ class SudokuBoard
   end
 
   def next_space
-    @unfilled_points.last
+    most_constrained = nil
+    most_constrained_choices = @length + 1
+    @unfilled_points.each do |point|
+      number_of_choices = possible_choices(point).size
+      next unless number_of_choices < most_constrained_choices
+      most_constrained = point
+      most_constrained_choices = number_of_choices
+    end
+    most_constrained
   end
 
   def possible_choices(point)
     row_choices = @remaining_row_choices[point.row]
     column_choices = @remaining_column_choices[point.column]
     sector_choices = @remaining_sector_choices[point.row/@sector_length][point.column/@sector_length]
-    (row_choices & column_choices & sector_choices).to_a
+    row_choices & column_choices & sector_choices
   end
 
   def play(point, choice)
