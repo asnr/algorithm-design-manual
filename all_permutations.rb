@@ -4,7 +4,7 @@ def all_permutations(set_size, current_permutation, already_in_permutation, next
     print_permutation current_permutation
     return
   end
-  (0..set_size).each do |value|
+  (1..set_size).each do |value|
     next if already_in_permutation.include?(value)
     current_permutation[next_idx] = value
     already_in_permutation.add(value)
@@ -18,20 +18,20 @@ def print_permutation(current_permutation)
 end
 
 class BitVector
-  def initialize(size)
-    raise Error
+  def initialize
+    @bits = 0
   end
 
   def add(n)
-    raise Error
+    @bits |= 1 << n
   end
 
   def delete(n)
-    raise Error
+    @bits ^= 1 << n
   end
 
   def include?(n)
-    raise Error
+    @bits & (1 << n) > 0
   end
 end
 
@@ -42,5 +42,5 @@ end
 
 set_size = ARGV[0].to_i
 permutation_array = [nil] * set_size
-already_in_permutation = BitVector.new(set_size)
+already_in_permutation = BitVector.new
 all_permutations(set_size, permutation_array, already_in_permutation, 0)
